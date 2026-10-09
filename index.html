@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FAQ de consulta rápida com busca por palavra-chave e filtro por tema. Versão demonstrativa com conteúdo fictício.">
+  <title>FAQ de consulta rápida · Clube Brota (demo)</title>
+
+  <!-- Estilos separados -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- ============================================================
+     CABEÇALHO
+     Título, subtítulo e "pílulas" de metadados (versão, data etc.)
+     ============================================================ -->
+  <header>
+    <div class="header-inner">
+      <span class="badge">Demo · Conteúdo fictício</span>
+      <h1>Kit de Atendimento Clube Brota</h1>
+      <p class="sub">Consulta rápida e objetiva para os times de atendimento, comercial e de retenção, com informações sobre a assinatura e pontos de atenção para a conversa com o cliente.</p>
+      <div class="meta-row">
+        <span class="meta-pill" id="countQuestions">20 perguntas</span>
+        <span class="meta-pill" id="countCategories">6 categorias</span>
+        <span class="meta-pill">Marca e dados inventados</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+     BARRA DE FERRAMENTAS
+     Campo de busca + botões de filtro por categoria (preenchidos
+     dinamicamente pelo script.js a partir dos dados em faq-data.js)
+     ============================================================ -->
+  <div class="toolbar">
+    <div class="search-box">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input id="searchInput" type="text" aria-label="Buscar na FAQ"
+        placeholder="Buscar por palavra-chave (ex.: entrega, plano, cancelamento, rega)...">
+    </div>
+
+    <!-- Botões de categoria são inseridos aqui via JS (buildFilters) -->
+    <div class="filters" id="filters"></div>
+
+    <div class="toolbar-footer">
+      <!-- Contador "Exibindo X de Y perguntas" -->
+      <div class="counter" id="counter"></div>
+      <button class="clear-filters" id="clearFilters" type="button">Limpar filtros</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     MATERIAIS DE APOIO
+     Na versão original, estes cartões abrem os documentos oficiais.
+     Aqui são apenas exemplos, sem arquivo vinculado.
+     ============================================================ -->
+  <section class="materiais" aria-label="Materiais de apoio">
+    <h2 class="materiais-title">Materiais de apoio</h2>
+    <div class="materiais-grid">
+
+      <a class="doc-card" href="#" aria-disabled="true" onclick="return false">
+        <span class="doc-tipo">PDF</span>
+        <span class="doc-info">
+          <strong>Guia de Mensagem</strong>
+          <small>Exemplo · sem arquivo na versão demonstrativa</small>
+        </span>
+      </a>
+
+      <a class="doc-card" href="#" aria-disabled="true" onclick="return false">
+        <span class="doc-tipo">PPT</span>
+        <span class="doc-info">
+          <strong>Apresentação de vendas</strong>
+          <small>Exemplo · sem arquivo na versão demonstrativa</small>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+     CÓDIGO DO ATENDIMENTO
+     Mensagens-chave + tabela característica → benefício
+     (conteúdo em CODIGO_DATA, arquivo faq-data.js)
+     ============================================================ -->
+  <section class="codigo" id="codigo" aria-label="Código do atendimento"></section>
+
+  <!-- Aviso exibido quando uma mensagem do código está selecionada -->
+  <div class="refs-notice" id="refsNotice" hidden></div>
+
+  <!-- ============================================================
+     CONTEÚDO PRINCIPAL
+     As perguntas/respostas são renderizadas aqui pelo script.js
+     a partir do array FAQ_DATA (arquivo faq-data.js)
+     ============================================================ -->
+  <main id="main"></main>
+  <div class="no-results" id="noResults">Nenhuma pergunta encontrada. Tente outro termo de busca.</div>
+
+  <footer>
+    <p>Projeto de portfólio de Jéssica Maciel.</p>
+    <p class="footer-note">Clube Brota é uma marca fictícia. Todo o conteúdo desta página é inventado.</p>
+  </footer>
+
+  <!-- ============================================================
+     SCRIPTS
+     1) faq-data.js  -> só os dados (perguntas/respostas/categorias)
+     2) script.js    -> lógica de renderização, busca e filtro
+     Mantidos em arquivos separados para facilitar a atualização
+     do conteúdo sem mexer na lógica.
+     ============================================================ -->
+  <script src="faq-data.js"></script>
+  <script src="script.js"></script>
+
+</body>
+
+</html>

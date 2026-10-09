@@ -1,0 +1,686 @@
+/**
+ * styles.css
+ * ---------------------------------------------------------------
+ * Estilos da FAQ de consulta rápida (versão demonstrativa).
+ *
+ * Todas as cores ficam em variáveis no :root, então trocar a
+ * identidade visual é questão de ajustar os valores abaixo.
+ * ---------------------------------------------------------------
+ */
+
+/* ---------- Variáveis de cor (fáceis de ajustar) ---------- */
+:root{
+  --accent: #A8421C;         /* cor de destaque (links, filtros ativos) */
+  --accent-dark: #86330F;    /* variação escura, para hover */
+  --accent-light: #FBEDE6;   /* fundo claro para tags e seleção */
+  --accent-strong: #B84A1D;  /* destaque dos materiais de apoio */
+  --header: #12332B;         /* verde escuro (cabeçalho) */
+  --header-2: #1C4A3E;       /* um tom mais claro (gradiente) */
+  --slate: #4A5C68;          /* cinza-ardósia (texto secundário) */
+  --bg: #F6F5F3;             /* fundo geral da página */
+  --card: #FFFFFF;           /* fundo dos cartões de pergunta */
+  --ink: #1B1F23;            /* texto principal */
+  --ink-soft: #5B646C;       /* texto secundário */
+  --border: #E7E3DE;         /* bordas sutis */
+  --warn-bg: #FFF6E5;        /* fundo do selo "a confirmar" */
+  --warn-border: #E9C46A;    /* borda do selo "a confirmar" */
+  --warn-ink: #8A5A00;       /* texto do selo "a confirmar" */
+  --ok-bg: #EAF5EE;          /* fundo do bloco "prefira" */
+  --ok-border: #5FAE7C;      /* borda do bloco "prefira" */
+  --ok-ink: #1F6B3A;         /* rótulo do bloco "prefira" */
+}
+
+/* ---------- Reset básico ---------- */
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* ============================================================
+   CABEÇALHO
+   ============================================================ */
+header{
+  background: linear-gradient(135deg, var(--header) 0%, var(--header-2) 100%);
+  color: #fff;
+  padding: 40px 24px 28px;
+  position: relative;
+  overflow: hidden; /* esconde o círculo decorativo que sai da área */
+}
+
+/* Círculo decorativo translúcido no canto superior direito */
+header::after{
+  content: "";
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 260px;
+  height: 260px;
+  background: var(--accent);
+  opacity: .18;
+  border-radius: 50%;
+}
+
+.header-inner{
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1; /* fica acima do círculo decorativo */
+}
+
+.badge{
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+h1{
+  margin: 0 0 6px;
+  font-size: clamp(24px, 3.4vw, 34px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+header p.sub{
+  margin: 0;
+  color: #CFE0D8;
+  font-size: 15px;
+  max-width: 640px;
+}
+
+/* Fileira de "pílulas" com metadados (nº de perguntas, data etc.) */
+.meta-row{
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 12.5px;
+  color: #E0ECE6;
+}
+
+.meta-pill{
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+/* ============================================================
+   BARRA DE FERRAMENTAS (busca + filtros)
+   ============================================================ */
+.toolbar{
+  max-width: 1000px;
+  margin: -22px auto 0; /* sobrepõe levemente o cabeçalho */
+  position: relative;
+  z-index: 2;
+  background: var(--card);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(18,51,43,.12);
+  padding: 16px;
+  border: 1px solid var(--border);
+}
+
+.search-box{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #F6F5F3;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.search-box input{
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+.search-box svg{ flex-shrink: 0; opacity: .5; }
+
+/* Botões de filtro por categoria (gerados via JS) */
+.filters{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.filter-btn{
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+
+.filter-btn:hover{ border-color: var(--accent); color: var(--accent); }
+
+.filter-btn.active{
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.toolbar-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.counter{
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.clear-filters{
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 4px 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.clear-filters:hover:not(:disabled){ color: var(--accent-dark); }
+
+.clear-filters:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.clear-filters:disabled{
+  color: #9AA1A6;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* ============================================================
+   MATERIAIS DE APOIO
+   Cartões com links para os documentos de apoio
+   ============================================================ */
+.materiais{
+  max-width: 1000px;
+  margin: 22px auto 0;
+}
+
+.materiais-title{
+  margin: 0 0 10px 4px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--accent-strong);
+}
+
+.materiais-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.doc-card{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-decoration: none;   /* tira o sublinhado padrão do link */
+  color: var(--accent-strong);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.doc-card:hover{
+  border-color: var(--accent);
+  box-shadow: 0 4px 14px rgba(18,51,43,.08);
+}
+
+/* Ícone com o tipo do arquivo (PDF, PPT) */
+.doc-tipo{
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  background: var(--accent-light);
+  color: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-info{ display: flex; flex-direction: column; }
+.doc-info strong{ font-size: 15px; }
+.doc-info small{ font-size: 12.5px; color: var(--ink-soft); }
+
+/* ============================================================
+   CÓDIGO DO ATENDIMENTO (mensagens-chave)
+   ============================================================ */
+.codigo{
+  max-width: 1000px;
+  margin: 22px auto 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--accent);
+  border-radius: 14px;
+  padding: 20px 22px 22px;
+}
+
+.codigo.collapsed{ padding-bottom: 16px; }
+
+.codigo-head{
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.codigo-title{
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--header);
+}
+
+.codigo-sub{
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+  max-width: 620px;
+}
+
+.codigo-toggle{
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.codigo-toggle:hover{ border-color: var(--header); color: var(--header); }
+
+.codigo-body{ margin-top: 16px; }
+
+/* Cartões das mensagens */
+.msg-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.msg-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  text-align: left;
+  font: inherit;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 14px;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.msg-card:hover{ border-color: var(--accent); }
+
+.msg-card.active{
+  background: var(--accent-light);
+  border-color: var(--accent);
+}
+
+.msg-text{
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.msg-link{
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Tabela característica → benefício */
+.table-title{
+  margin: 24px 0 4px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--header);
+}
+
+.table-intro{
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.table-wrap{ overflow-x: auto; }
+
+.benefit-table{
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.benefit-table th{
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  padding: 8px 12px;
+  border-bottom: 2px solid var(--border);
+}
+
+.benefit-table td{
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--ink);
+}
+
+.benefit-table td:first-child{
+  font-weight: 700;
+  color: var(--header);
+  width: 34%;
+}
+
+.benefit-table tr:last-child td{ border-bottom: 0; }
+
+/* Aviso de mensagem selecionada */
+.refs-notice{
+  max-width: 1000px;
+  margin: 18px auto 0;
+  padding: 11px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--accent-light);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--ink);
+  scroll-margin-top: 16px;
+}
+
+.refs-notice[hidden]{ display: none; }
+
+.refs-clear{
+  flex-shrink: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.msg-card:focus-visible,
+.doc-card:focus-visible,
+.codigo-toggle:focus-visible,
+.refs-clear:focus-visible,
+.filter-btn:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   CONTEÚDO PRINCIPAL (grupos de categoria + perguntas)
+   ============================================================ */
+main{
+  max-width: 1000px;
+  margin: 26px auto 60px;
+  padding: 0 16px;
+}
+
+.category-group{ margin-bottom: 26px; }
+
+.category-title{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--accent);
+  margin: 0 0 10px 4px;
+}
+
+.category-title .dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Cartão de pergunta/resposta (acordeão) */
+.qa-item{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  transition: box-shadow .15s ease;
+}
+
+.qa-item:hover{ box-shadow: 0 4px 14px rgba(18,51,43,.06); }
+
+.qa-question{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 15px 18px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.qa-question .q-left{
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+/* Numeração de cada pergunta (1, 2, 3...) */
+.q-num{
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--header);
+  min-width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.q-text{ font-weight: 650; font-size: 15.5px; color: var(--ink); }
+
+/* Seta que gira ao abrir/fechar o acordeão */
+.chevron{
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  color: var(--ink-soft);
+  transition: transform .2s ease;
+}
+
+.qa-item.open .chevron{ transform: rotate(180deg); }
+
+/* Resposta (escondida por padrão via max-height, controlado pelo JS) */
+.qa-answer{
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .25s ease;
+}
+
+.qa-answer-inner{
+  padding: 0 18px 18px 52px; /* recuo para alinhar com o texto da pergunta */
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.qa-answer-inner p{ margin: 0 0 8px; }
+.qa-answer-inner strong{ color: var(--ink); }
+.qa-answer-inner ul{ margin: 0 0 8px; padding-left: 20px; }
+.qa-answer-inner li{ margin-bottom: 3px; }
+
+/* Introdução opcional abaixo do título da categoria */
+.category-intro{
+  margin: -4px 0 12px 4px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+.category-intro strong{ color: var(--ink); }
+
+/* ---------- Orientações comerciais dentro da resposta ---------- */
+.qa-notes{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.note{
+  border-left: 3px solid var(--header);
+  background: #EFF5F2;
+  border-radius: 0 8px 8px 0;
+  padding: 9px 12px;
+}
+
+.note-label{
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--header);
+  margin-bottom: 2px;
+}
+
+.note-text{
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+/* fala: frase sugerida para usar com o cliente */
+.note-fala{ border-left-color: var(--slate); background: #F4F3F1; }
+.note-fala .note-label{ color: var(--slate); }
+.note-fala .note-text{ font-style: italic; }
+
+/* atenção */
+.note-atencao{ border-left-color: var(--warn-border); background: var(--warn-bg); }
+.note-atencao .note-label{ color: var(--warn-ink); }
+
+/* evite / nunca diga */
+.note-evite{ border-left-color: var(--accent); background: var(--accent-light); }
+.note-evite .note-label{ color: var(--accent); }
+
+/* prefira */
+.note-prefira{ border-left-color: var(--ok-border); background: var(--ok-bg); }
+.note-prefira .note-label{ color: var(--ok-ink); }
+
+/* Selo "⚠ A confirmar" usado em respostas sem informação oficial */
+.pill-confirm{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-border);
+  color: var(--warn-ink);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 999px;
+  margin-top: 8px;
+}
+
+/* Mensagem exibida quando a busca não encontra nada */
+.no-results{
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--ink-soft);
+  display: none; /* controlado via JS */
+}
+
+footer{
+  max-width: 1000px;
+  margin: 0 auto 50px;
+  padding: 0 16px;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+footer p{ margin: 0; }
+footer .footer-note{ margin-top: 5px; }
+
+/* ============================================================
+   IMPRESSÃO
+   Facilita imprimir a FAQ inteira (ex: para consulta offline)
+   ============================================================ */
+@media print{
+  header::after{ display: none; }
+  .toolbar{ box-shadow: none; }
+  .qa-answer{ max-height: none !important; } /* mostra todas as respostas */
+  .chevron{ display: none; }
+  .codigo-body[hidden]{ display: block !important; }
+  .codigo-toggle, .refs-notice{ display: none !important; }
+}
+
+@media (max-width: 560px){
+  .materiais, .codigo, .refs-notice{ margin-left: 12px; margin-right: 12px; }
+  .materiais-grid{ grid-template-columns: 1fr; }
+  .codigo{ padding: 16px; }
+  .msg-grid{ grid-template-columns: 1fr; }
+  .codigo-head{ flex-direction: column; }
+  .refs-notice{ flex-direction: column; align-items: flex-start; }
+  .qa-answer-inner{ padding-left: 18px; }
+  .toolbar-footer{ align-items: flex-start; }
+  .clear-filters{ flex-shrink: 0; }
+}
+
+/* Link de exemplo (sem documento real na versão demonstrativa) */
+.doc-card[aria-disabled="true"]{ cursor: default; }
