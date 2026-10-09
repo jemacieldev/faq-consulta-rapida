@@ -51,9 +51,7 @@ Baixe a pasta e abra o `index.html` no navegador. Não é preciso instalar nada.
 
 ## Resultado
 
-O retorno do time solicitante foi resumido em uma frase:
-
-> "Pedimos um garfo e foi entregue o bolo, os talheres e o prato."
+O time solicitante resumiu o retorno com uma comparação: pediram um talher e receberam a mesa posta.
 
 A entrega foi além do escopo original: em vez de uma lista de perguntas, os times receberam uma ferramenta de consulta pronta para o dia a dia. O projeto recebeu elogios das áreas que passaram a usá-la e o reconhecimento de que resolvia uma necessidade que nem estava no escopo inicial.
 
